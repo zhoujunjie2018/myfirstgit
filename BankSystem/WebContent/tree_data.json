@@ -1,0 +1,61 @@
+[{
+	"id":1,
+	"text":"Folder 1",
+	"iconCls":"icon-folder",
+	"children":[{
+				"id":2,
+				"text":"File1",
+				"checked":true
+	
+				},{
+				"id":3,
+				"text":"Folder2",
+				"state":"open",
+				"children":[{
+							"id":41,
+							"text":"File21"
+				
+							},{
+							
+							"id":42,
+							"text":"File22"
+							
+							},{
+							
+							"id":43,
+							"text":"File23"
+							
+							}]
+				
+				
+				},{
+				"id":21,
+				"text":"File12",
+				"checked":true
+	
+				
+				},{
+				"id":22,
+				"text":"File12",
+				"checked":true
+	
+				
+				}]
+
+},{
+
+
+
+
+},{
+
+
+
+},{
+
+
+
+},{
+
+
+}]

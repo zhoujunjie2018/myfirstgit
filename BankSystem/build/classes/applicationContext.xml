@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+	http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd"> 
+	
+	
+	<!-- ##spring 希望管理所有的业务逻辑组件-->
+	
+	
+	<!-- 扫描工程 -->
+	 <!--扫描所有的mapper借口的实现，让这些mapper能够自动注入  -->
+	<mybatis:scan base-package="com.mapper"/>
+	<context:component-scan base-package="com" />
+	
+	<!-- if you use annotation you must configure following setting -->
+		
+	
+	<!-- 引入数据库配置文件 -->
+	<context:property-placeholder location="classpath:dbconfig.properties"/>
+	
+	
+	<!--spring用来控制业务逻辑，数据源，事务控制，aop等。。。 -->
+	
+	 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  
+        destroy-method="close">  
+        <property name="driverClassName" value="${jdbc.driver}" />  
+        <property name="url" value="${jdbc.url}" />  
+        <property name="username" value="${jdbc.username}" />  
+        <property name="password" value="${jdbc.password}" />  
+   
+    </bean> 
+    
+    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	
+	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="dataSource" />
+			<property name="configLocation" value="classpath:mybatis-config.xml" />
+			<property name="mapperLocations" value="classpath:mybatis/mapper/*.xml" />
+	</bean>
+	
+	
+	<!-- 用于将对象转换为 JSON,start -->  
+	<bean id="stringConverter"  
+		class="org.springframework.http.converter.StringHttpMessageConverter">  
+		<property name="supportedMediaTypes">  
+			<list>  
+				<value>text/plain;charset=UTF-8</value>
+			</list>  
+		</property>  
+	</bean>  
+	
+	<bean id="jsonConverter"  
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property  name="supportedMediaTypes">
+			<list>    
+	            <value>application/json;charset=UTF-8</value>    
+	       </list> 
+		</property>
+	</bean>  
+	
+	
+	
+
+     
+   
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</beans>

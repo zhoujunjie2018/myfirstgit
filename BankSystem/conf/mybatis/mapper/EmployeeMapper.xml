@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace为借口类全名    -->
+<mapper namespace="com.mapper.EmployeeMapper">
+	
+<!--id的设置为EmployeeMapper接口中的方法，resultType的值为对应model的类全名     -->	
+<!--查-->	
+<select id="getEmpById" resultType="employee">
+	select * from tb1_employee where id=#{id}
+</select>
+ 
+ <!--查询所有员工-->
+ <select id="getEmps" resultType="employee">
+ 	select * from tb1_employee
+ </select>
+ 
+</mapper> 

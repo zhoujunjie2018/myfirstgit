@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.AccountMapper">
+	
+	<select id="getAccountById" resultType="account">
+		select * from account_01 where id=#{id}
+	</select>
+	
+	<update id="updateA">
+		update account_01 set ownerName=#{ownerName},balance=#{balance},
+		startAccessTime=#{startAccessTime},endAccessTime=#{endAccessTime},password=#{password} where id=#{id}
+		
+	</update>
+	
+
+	<delete id="deleteAccounts">
+		DELETE FROM account_01 WHERE id IN
+		<foreach item="id"  collection="ids" open="("  separator=","  close=")">
+        #{id}
+  		</foreach>
+
+	</delete >
+	
+	
+	<insert id="addAccount" >
+		INSERT INTO account_01 (id,ownerName,`password`,balance,startAccessTime,endAccessTime,sex )
+		VALUES (#{id},#{ownerName},#{password},#{balance},#{startAccessTime},#{endAccessTime},#{sex})
+		
+	</insert>
+	
+	<insert id="saveAccount">
+		INSERT INTO account_01 (id,ownerName,`password`,balance,startAccessTime,endAccessTime,sex )
+		VALUES (#{id},#{ownerName},#{password},#{balance},#{startAccessTime},#{endAccessTime},#{sex})
+		
+	</insert>
+	
+	<select id="getAllAccounts" resultType="account">
+		select * from account_01
+		
+	</select>
+	
+	<select id="getPageAccounts" resultType="account">
+		select * from account_01 
+		<where>
+			
+			<if test="account.id!=null">
+				and id=#{account.id}
+			</if>
+			<if test="account.ownerName!=null and account.ownerName!=''">
+				and ownerName=#{account.ownerName}
+			</if>
+			<if test="account.startAccessTime!=null">
+				and startAccessTime  &gt;= #{account.startAccessTime}
+			</if>
+			
+			<if test="account.endAccessTime!=null">
+				and endAccessTime &lt;= #{account.endAccessTime}
+			</if>
+		
+		</where>
+		
+		order by ${sort} ${order}
+		limit #{start},#{rows}
+		
+	</select>
+	
+</mapper>
